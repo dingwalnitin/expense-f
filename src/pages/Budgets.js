@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import BudgetCard from '../components/BudgetCard';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Budgets() {
     const [budgets, setBudgets] = useState([]);
     const [open, setOpen] = useState(false);
@@ -14,7 +16,7 @@ function Budgets() {
 
     const fetchBudgets = async () => {
         try {
-            const response = await axios.get('/api/budgets');
+            const response = await axios.get(`${API_BASE_URL}/api/budgets`);
             setBudgets(response.data);
         } catch (error) {
             console.error('Error fetching budgets:', error);
@@ -36,7 +38,7 @@ function Budgets() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/budgets', newBudget);
+            await axios.post(`${API_BASE_URL}/api/budgets`, newBudget);
             setOpen(false);
             fetchBudgets();
             setNewBudget({ category: '', limit: '', period: '' });

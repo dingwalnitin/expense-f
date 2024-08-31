@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Typography, Button, Grid, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem } from '@mui/material';
 import ExpenseCard from '../components/ExpenseCard';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Expenses() {
     const [expenses, setExpenses] = useState([]);
     const [open, setOpen] = useState(false);
@@ -18,7 +20,7 @@ function Expenses() {
 
     const fetchExpenses = async () => {
         try {
-            const response = await axios.get('/api/expenses');
+            const response = await axios.get(`${API_BASE_URL}/api/expenses`);
             setExpenses(response.data);
         } catch (error) {
             console.error('Error fetching expenses:', error);
@@ -27,7 +29,7 @@ function Expenses() {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('/api/categories');
+            const response = await axios.get(`${API_BASE_URL}/api/categories`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -36,7 +38,7 @@ function Expenses() {
 
     const fetchBudgets = async () => {
         try {
-            const response = await axios.get('/api/budgets');
+            const response = await axios.get(`${API_BASE_URL}/api/budgets`);
             setBudgets(response.data);
         } catch (error) {
             console.error('Error fetching budgets:', error);
@@ -58,7 +60,7 @@ function Expenses() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/expenses', newExpense);
+            await axios.post(`${API_BASE_URL}/api/expenses`, newExpense);
             setOpen(false);
             fetchExpenses();
             setNewExpense({ amount: '', category: '', budget: '', description: '', date: '' });
@@ -69,7 +71,7 @@ function Expenses() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`/api/expenses/${id}`);
+            await axios.delete(`${API_BASE_URL}/api/expenses/${id}`);
             fetchExpenses();
         } catch (error) {
             console.error('Error deleting expense:', error);

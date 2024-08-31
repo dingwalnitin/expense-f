@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Typography, Card, CardContent } from '@mui/material';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Reports() {
   const [expenseReport, setExpenseReport] = useState({});
   const [categoryReport, setCategoryReport] = useState({});
   const [budgetReport, setBudgetReport] = useState([]);
   
   useEffect(() => {
-    axios.get('/api/reports/expenses')
+    axios.get(`${API_BASE_URL}/api/reports/expenses`)
       .then(response => setExpenseReport(response.data))
       .catch(error => console.error(error));
     
-    axios.get('/api/reports/categories')
+      axios.get(`${API_BASE_URL}/api/reports/categories`)
       .then(response => setCategoryReport(response.data))
       .catch(error => console.error(error));
     
-    axios.get('/api/reports/budgets')
+    axios.get(`${API_BASE_URL}/api/reports/budgets`)
       .then(response => setBudgetReport(response.data))
       .catch(error => console.error(error));
   }, []);

@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -20,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       console.log('Fetching user...');
-      const res = await axios.get('/api/auth/user');
+      const res = await axios.get(`${API_BASE_URL}/api/auth/user`);
       console.log('User data:', res.data);
       setUser(res.data);
     } catch (error) {
@@ -35,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       console.log('Attempting login...');
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
       console.log('Login response:', res.data);
       localStorage.setItem('token', res.data.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
@@ -49,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const res = await axios.post('/api/auth/register', { name, email, password });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, { name, email, password });
       localStorage.setItem('token', res.data.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
       await fetchUser();

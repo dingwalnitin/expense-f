@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import CategoryCard from '../components/CategoryCard';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Categories() {
     const [categories, setCategories] = useState([]);
     const [open, setOpen] = useState(false);
@@ -14,7 +16,7 @@ function Categories() {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('/api/categories');
+            const response = await axios.get(`${API_BASE_URL}/api/categories`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -36,7 +38,7 @@ function Categories() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/categories', newCategory);
+            await axios.post(`${API_BASE_URL}/api/categories`, newCategory);
             setOpen(false);
             fetchCategories();
             setNewCategory({ name: '', type: '' });
